@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # TODO: We pretty much just use active record and active mailer, do we need rails?
-gem "rails", "~> 4.1"
+gem "rails", "~> 4.2"
 gem "mysql2"
 
 # TODO: COnsider switching to Bunny if possible
@@ -11,7 +11,7 @@ gem "rest-client"
 gem "migration_comments"
 
 # The gems commented out below were part of warehouse_two/three
-# The extra support they provided is not needed for the unified warehouse, leaving them here
+# The extra support they provided is not needed for the event warehouse, leaving them here
 # as an active reminder to avoid someone re-implementing the wheel if we need them in future
 
 # We have to use composite primary keys because of the table partitioning

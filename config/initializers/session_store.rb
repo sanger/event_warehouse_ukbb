@@ -1,8 +1,8 @@
 # Be sure to restart your server when you modify this file.
 
-UnifiedWarehouse::Application.config.session_store :cookie_store, key: '_unified_warehouse_session'
+EventWarehouse::Application.config.session_store :cookie_store, key: '_event_warehouse_session'
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rails generate session_migration")
-# UnifiedWarehouse::Application.config.session_store :active_record_store
+# EventWarehouse::Application.config.session_store :active_record_store

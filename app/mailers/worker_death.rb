@@ -1,7 +1,7 @@
 class WorkerDeath < ActionMailer::Base
 
-    default :from => UnifiedWarehouse::Application.config.worker_death_from,
-            :to => UnifiedWarehouse::Application.config.worker_death_to,
+    default :from => EventWarehouse::Application.config.worker_death_from,
+            :to => EventWarehouse::Application.config.worker_death_to,
             :subject => "[#{Rails.env.upcase}] Unified Warehouse worker death"
 
   def failure(exception)
