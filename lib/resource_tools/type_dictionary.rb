@@ -41,6 +41,8 @@ module ResourceTools::TypeDictionary
   base.class_eval do
 
     validates_presence_of :key
+    validates_uniqueness_of :key
+
     validates_presence_of :description
 
     extend ClassMethods
