@@ -42,6 +42,9 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    activeuuid (0.6.0)
+      activerecord (>= 3.1)
+      uuidtools
     addressable (2.3.8)
     amq-protocol (2.0.0)
     amqp (1.5.0)
@@ -200,6 +203,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
+    uuidtools (2.1.5)
     webmock (1.21.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -208,6 +212,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activeuuid
   amqp (~> 1.5)
   database_cleaner
   factory_girl_rails

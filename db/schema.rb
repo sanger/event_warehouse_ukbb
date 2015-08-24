@@ -35,17 +35,17 @@ ActiveRecord::Schema.define(version: 20150818153117) do
   add_index "event_types", ["key"], name: "index_event_types_on_key", unique: true, using: :btree
 
   create_table "events", force: :cascade do |t|
-    t.string   "lims_id",         limit: 255,   null: false, comment: "Identifier for the originating LIMS. eg. SQSCP for Sequencesacape"
-    t.binary   "uuid",            limit: 65535, null: false, comment: "A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)"
-    t.integer  "event_type_id",   limit: 4,     null: false, comment: "References the event type"
-    t.datetime "occured_at",                    null: false, comment: "The time at which the event was recorded as happening. Other timestamps record when the event entered the database"
-    t.string   "user_identifier", limit: 255,   null: false
+    t.string   "lims_id",         limit: 255, null: false, comment: "Identifier for the originating LIMS. eg. SQSCP for Sequencesacape"
+    t.uuid     "uuid",            limit: 16,  null: false, comment: "A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)"
+    t.integer  "event_type_id",   limit: 4,   null: false, comment: "References the event type"
+    t.datetime "occured_at",                  null: false, comment: "The time at which the event was recorded as happening. Other timestamps record when the event entered the database"
+    t.string   "user_identifier", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "events", ["event_type_id"], name: "fk_rails_75f14fef31", using: :btree
-  add_index "events", ["uuid"], name: "index_events_on_uuid", unique: true, length: {"uuid"=>16}, using: :btree
+  add_index "events", ["uuid"], name: "index_events_on_uuid", unique: true, using: :btree
 
   create_table "metadata", force: :cascade do |t|
     t.integer  "event_id",   limit: 4,   null: false, comment: "References the event with which the metadata is associated"
@@ -76,7 +76,7 @@ ActiveRecord::Schema.define(version: 20150818153117) do
   add_index "subject_types", ["key"], name: "index_subject_types_on_key", unique: true, using: :btree
 
   create_table "subjects", force: :cascade do |t|
-    t.binary   "uuid",            limit: 16,  null: false, comment: "A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)"
+    t.uuid     "uuid",            limit: 16,  null: false, comment: "A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)"
     t.string   "friendly_name",   limit: 255, null: false, comment: "A user readable identifier for the subject"
     t.integer  "subject_type_id", limit: 4,   null: false, comment: "References the event type"
     t.datetime "created_at"

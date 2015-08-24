@@ -7,6 +7,10 @@ gem "mysql2"
 # TODO: COnsider switching to Bunny if possible
 gem "amqp", "~> 1.5"
 
+# Replaces use of lib/uuidable.rb as the latter was provind to
+# be a bit brittle. Allows use of binary uuid columns.
+gem 'activeuuid'
+
 # We use a special version of hashie to bypass rails protected attributes.
 # Consider removing Hashie entirely
 gem "hashie-forbidden_attributes"

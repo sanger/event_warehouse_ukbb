@@ -33,10 +33,14 @@ describe Event do
           "uuid" => "00000000-1111-2222-3333-777777777777"
         }
       ],
-      "metadata"=>{
-        "delivery_method" => "courier",
-        "shipping_cost" => "15.00"
-      }
+      "metadata"=> metadata
+    }
+  end
+
+  let(:metadata) do
+    {
+      "delivery_method" => "courier",
+      "shipping_cost" => "15.00"
     }
   end
 
@@ -63,9 +67,18 @@ describe Event do
       end
 
       it 'should have the expected uuid' do
-        expect(described_class.last.uuid).to eq(event_uuid)
+        expect(described_class.last.uuid.to_s).to eq(event_uuid)
       end
 
+    end
+
+    shared_examples_for 'it registers metadata' do
+      it 'should have 2 metadata with the right values' do
+        expect(described_class.last.metadata.count).to eq(2)
+        metadata.each do |key,value|
+          expect(described_class.last.metadata.where(key:key).first.value).to eq(value)
+        end
+      end
     end
 
     shared_examples_for "an ignored event" do
@@ -100,6 +113,7 @@ describe Event do
       let(:event_type) { missing_event_type }
 
       it_behaves_like 'a recorded event'
+      # it_behaves_like 'it registers metadata'
     end
 
   end

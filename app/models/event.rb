@@ -1,8 +1,6 @@
 class Event < ActiveRecord::Base
   include ResourceTools
   include ImmutableResourceTools
-  # include SingularResourceTools
-  # extend AssociatedWithRoles
 
   has_many :event_subjects
   has_many :subjects, through: :event_subjects
