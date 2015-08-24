@@ -5,9 +5,11 @@ describe Event do
   let(:registered_event_type) { 'delivery' }
   let(:missing_event_type) { 'package_lost' }
 
+  let(:event_uuid) { '00000000-1111-2222-3333-444444444444' }
+
   let(:json) do
     {
-      "uuid" => "00000000-1111-2222-3333-444444444444",
+      "uuid" => event_uuid,
       "event_type" => event_type,
       "occured_at" => "2012-03-11 10:22:42",
       "user_identifier" => "postmaster@example.com",
@@ -38,6 +40,7 @@ describe Event do
     }
   end
 
+  # We have a single pre-registered event type
   before(:example) do
     create(:event_type, key:registered_event_type)
   end
@@ -56,6 +59,10 @@ describe Event do
         expect(described_class.last).to be_instance_of(Event)
         expect(described_class.last.event_type).to be_instance_of(EventType)
         expect(described_class.last.event_type.key).to eq(event_type)
+      end
+
+      it 'should have the expected uuid' do
+        expect(described_class.last.uuid).to eq(event_uuid)
       end
 
     end
