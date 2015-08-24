@@ -14,9 +14,9 @@
 ActiveRecord::Schema.define(version: 20150818153117) do
 
   create_table "event_subjects", force: :cascade do |t|
-    t.integer  "event_id",     limit: 4, comment: "Associate with the event (what happened)"
-    t.integer  "subject_id",   limit: 4, comment: "Associate with the subject (what it happened to, or what might care)"
-    t.integer  "role_type_id", limit: 4, comment: "References the role_types table, describing the role"
+    t.integer  "event_id",     limit: 4, null: false, comment: "Associate with the event (what happened)"
+    t.integer  "subject_id",   limit: 4, null: false, comment: "Associate with the subject (what it happened to, or what might care)"
+    t.integer  "role_type_id", limit: 4, null: false, comment: "References the role_types table, describing the role"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -48,9 +48,9 @@ ActiveRecord::Schema.define(version: 20150818153117) do
   add_index "events", ["uuid"], name: "index_events_on_uuid", unique: true, length: {"uuid"=>16}, using: :btree
 
   create_table "metadata", force: :cascade do |t|
-    t.integer  "event_id",   limit: 4,   comment: "References the event with which the metadata is associated"
-    t.string   "key",        limit: 255, comment: "The metadata type"
-    t.string   "value",      limit: 255, comment: "The metadata value"
+    t.integer  "event_id",   limit: 4,   null: false, comment: "References the event with which the metadata is associated"
+    t.string   "key",        limit: 255, null: false, comment: "The metadata type"
+    t.string   "value",      limit: 255, null: false, comment: "The metadata value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -76,9 +76,9 @@ ActiveRecord::Schema.define(version: 20150818153117) do
   add_index "subject_types", ["key"], name: "index_subject_types_on_key", unique: true, using: :btree
 
   create_table "subjects", force: :cascade do |t|
-    t.binary   "uuid",            limit: 16,  comment: "A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)"
-    t.string   "friendly_name",   limit: 255, comment: "A user readable identifier for the subject"
-    t.integer  "subject_type_id", limit: 4,   comment: "References the event type"
+    t.binary   "uuid",            limit: 16,  null: false, comment: "A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)"
+    t.string   "friendly_name",   limit: 255, null: false, comment: "A user readable identifier for the subject"
+    t.integer  "subject_type_id", limit: 4,   null: false, comment: "References the event type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

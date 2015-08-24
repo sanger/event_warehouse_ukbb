@@ -1,7 +1,7 @@
 class CreateEvents < ActiveRecord::Migration
   def change
     create_table :events do |t|
-      t.string :lims_id, null:false, comment: 'Identifier for the originating LIMS. eg. SQSCP for Sequencesacape'
+      t.string :lims_id, null: false, comment: 'Identifier for the originating LIMS. eg. SQSCP for Sequencesacape'
       t.binary :uuid, null: false, comment:'A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)', length:16
       t.integer :event_type_id, null: false, comment:'References the event type'
       t.datetime :occured_at, null: false, comment:'The time at which the event was recorded as happening. Other timestamps record when the event entered the database'
