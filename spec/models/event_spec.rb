@@ -113,7 +113,7 @@ describe Event do
       let(:event_type) { missing_event_type }
 
       it_behaves_like 'a recorded event'
-      # it_behaves_like 'it registers metadata'
+      it_behaves_like 'it registers metadata'
     end
 
   end

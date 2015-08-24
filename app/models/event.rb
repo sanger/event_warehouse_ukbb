@@ -5,7 +5,13 @@ class Event < ActiveRecord::Base
   has_many :event_subjects
   has_many :subjects, through: :event_subjects
 
-  has_many :metadata
+  has_many :metadata do
+    def build_from_json(metadata_hash)
+      build(metadata_hash.map do |key,value|
+        {key:key,value:value}
+      end)
+    end
+  end
 
   belongs_to :event_type
 
@@ -26,7 +32,8 @@ class Event < ActiveRecord::Base
   def subjects=(subject_array)
   end
 
-  def metadata=(metadata_array)
+  def metadata=(metadata_hash)
+    metadata.build_from_json(metadata_hash)
   end
 
   json do
