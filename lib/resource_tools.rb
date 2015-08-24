@@ -3,7 +3,7 @@ module ResourceTools
 
   extend ActiveSupport::Concern
   include ResourceTools::Json
-  include ResourceTools::Association
+
   include ResourceTools::Timestamps
 
   included do |base|
@@ -18,11 +18,8 @@ module ResourceTools
     # we're probably not capturing all of the right messages.
     before_save :remember_if_we_are_a_new_record
 
-    # IDs can be alphanumerics, so the column is not set to integer. While MySQL is smart enough to handle the conversion, it
-    # slows down the queries significantly (~400ms vs 2). Ruby handles the conversion much more quickly.
-    scope :for_lims,  lambda { |lims| where(:id_lims=>lims) }
-    scope :with_uuid, lambda { |uuid| where(:"uuid_#{base.name.underscore}_lims"=>uuid)}
-    scope :with_id,   lambda { |id|   where(:"id_#{base.name.underscore}_lims"=>id.to_s) }
+    scope :for_lims,  lambda { |lims| where(:lims_id=>lims) }
+    scope :with_uuid, lambda { |uuid| where(:"uuid"=>uuid)}
   end
 
   def remember_if_we_are_a_new_record
@@ -39,21 +36,8 @@ module ResourceTools
     self.class.for_uuid(self.uuid)
   end
 
-  # Has this record been deleted remotely
-  def deleted?
-    deleted_at.present?
-  end
 
-  # Delete the record
-  def delete!
-    dup.tap do |record|
-      record.uuid, record.deleted_at = self.uuid, Time.now
-      record.recorded_at = record.last_updated = record.deleted_at
-      record.save!
-    end
-  end
-
-  IGNOREABLE_ATTRIBUTES = [ 'dont_use_id', 'recorded_at']
+  IGNOREABLE_ATTRIBUTES = [ 'dont_use_id' ]
 
   def updated_values?(object)
     us, them = self.attributes.stringify_keys, object.attributes.stringify_keys.reverse_slice(IGNOREABLE_ATTRIBUTES)

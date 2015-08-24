@@ -1,4 +1,6 @@
-module SingularResourceTools
+# An immutable resource can only be recorded once. And further messages with the same
+# uuid will be ignored. Even if their content is different.
+module ImmutableResourceTools
 
   extend ActiveSupport::Concern
 
@@ -8,13 +10,11 @@ module SingularResourceTools
 
   module ClassMethods
     def create_or_update(attributes)
+      # return false if with_uuid(new_atts["uuid"]).exists?
       new_atts = attributes.reverse_merge(:data => attributes)
       new_record = new(new_atts)
-      for_lims(attributes.id_lims).with_id(new_atts["id_#{name.underscore}_lims"]).first.latest(new_record) do |record|
-        record.update_attributes(new_atts) if record.present?
-        record ||= new_record
-        record.save!
-      end
+      return nil if new_record.ignorable?
+      new_record.save!
     end
     private :create_or_update
   end

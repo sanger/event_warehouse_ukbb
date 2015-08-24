@@ -8,12 +8,6 @@ shared_examples_for 'has multiple rows' do
       expect(row.last_updated).to     eq(most_recent_time)
     end
   end
-
-  it 'ensures the row is marked with recorded time' do
-    described_class.all.each do |row|
-      expect(row.recorded_at).to eq(recorded_time)
-    end
-  end
 end
 
 shared_examples_for 'a nested resource' do
@@ -57,7 +51,7 @@ shared_examples_for 'a nested resource' do
 
         before(:each) do
           allow(described_class).to receive(:checked_time_now).and_return(checked_time_now)
-          described_class.send(:create_or_update, attributes.merge("updated_at" =>modified_at,"deleted_at" => modified_at, "id_lims" =>example_lims))
+          described_class.send(:create_or_update, attributes.merge("updated_at" =>modified_at,"deleted_at" => modified_at, "lims_id" =>example_lims))
         end
 
         it 'removes matching records' do
@@ -86,7 +80,7 @@ shared_examples_for 'a nested resource' do
 
       context 'when the new record is not current' do
         before(:each) do
-          described_class.send(:create_or_update, attributes.merge("updated_at" => modified_at - 2.hours, :id_lims=>example_lims))
+          described_class.send(:create_or_update, attributes.merge("updated_at" => modified_at - 2.hours, :lims_id=>example_lims))
         end
 
         it 'keeps the original rows' do
@@ -121,7 +115,7 @@ shared_examples_for 'a nested resource' do
               # and then update the attribute.
               allow(described_class).to receive(:checked_time_now).and_return(checked_time_now)
               attributes[attribute] = 'changed'
-              described_class.send(:create_or_update, attributes.merge("updated_at" => modified_at, "id_lims" =>example_lims))
+              described_class.send(:create_or_update, attributes.merge("updated_at" => modified_at, "lims_id" =>example_lims))
             end
 
             it_behaves_like 'has multiple rows'

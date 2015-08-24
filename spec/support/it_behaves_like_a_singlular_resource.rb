@@ -9,10 +9,6 @@ shared_examples_for 'has only one row' do
     end
   end
 
-  it 'ensures the row is marked with recorded time' do
-    expect(described_class.first.recorded_at).to eq(recorded_time)
-  end
-
   it 'maintains the current view to only one row' do
     expect(current_records.count).to eq(1)
   end
@@ -59,7 +55,7 @@ shared_examples_for 'a singular resource' do
 
         before(:each) do
           allow(described_class).to receive(:checked_time_now).and_return(checked_time_now)
-          described_class.send(:create_or_update, attributes.merge("updated_at" =>modified_at,"deleted_at" => modified_at,:id_lims=>example_lims))
+          described_class.send(:create_or_update, attributes.merge("updated_at" =>modified_at,"deleted_at" => modified_at,:lims_id=>example_lims))
         end
 
         it 'flags the record as deleted' do
@@ -89,7 +85,7 @@ shared_examples_for 'a singular resource' do
 
       context 'when the new record is not current' do
         before(:each) do
-          described_class.send(:create_or_update, attributes.merge("updated_at" => modified_at - 2.hours, :id_lims=>example_lims))
+          described_class.send(:create_or_update, attributes.merge("updated_at" => modified_at - 2.hours, :lims_id=>example_lims))
         end
 
         it 'only has the current row in the view' do
@@ -124,7 +120,7 @@ shared_examples_for 'a singular resource' do
               # and then update the attribute.
               allow(described_class).to receive(:checked_time_now).and_return(checked_time_now)
               attributes[attribute] = 'changed'
-              described_class.send(:create_or_update, attributes.merge("updated_at" => modified_at,:id_lims =>example_lims))
+              described_class.send(:create_or_update, attributes.merge("updated_at" => modified_at,:lims_id =>example_lims))
             end
 
             it_behaves_like 'has only one row'

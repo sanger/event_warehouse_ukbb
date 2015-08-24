@@ -14,15 +14,15 @@
 ActiveRecord::Schema.define(version: 20150818153117) do
 
   create_table "event_subjects", force: :cascade do |t|
-    t.integer  "event_id",             limit: 4, comment: "Associate with the event (what happened)"
-    t.integer  "subject_id",           limit: 4, comment: "Associate with the subject (what it happened to, or what might care)"
+    t.integer  "event_id",     limit: 4, comment: "Associate with the event (what happened)"
+    t.integer  "subject_id",   limit: 4, comment: "Associate with the subject (what it happened to, or what might care)"
     t.integer  "role_type_id", limit: 4, comment: "References the role_types table, describing the role"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "event_subjects", ["event_id"], name: "index_event_subjects_on_event_id", using: :btree
-  add_index "event_subjects", ["role_type_id"], name: "fk_rails_4dd01901ae", using: :btree
+  add_index "event_subjects", ["role_type_id"], name: "fk_rails_cebba153ce", using: :btree
   add_index "event_subjects", ["subject_id"], name: "index_event_subjects_on_subject_id", using: :btree
 
   create_table "event_types", force: :cascade do |t|

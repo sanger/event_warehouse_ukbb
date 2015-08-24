@@ -28,5 +28,14 @@ module EventWarehouse
     config.amqp.main                  = ActiveSupport::Configurable::Configuration.new
     config.amqp.main.deadletter       = ActiveSupport::Configurable::Configuration.new
     config.amqp.deadletter            = ActiveSupport::Configurable::Configuration.new
+
+    # Events must be preregistered in the event types dictionary before they are recorded
+    config.event_type_preregistration = false
+
+    # Default descriptions are used in the event of autoregistration
+    default_descriptions = "This %s has been recorded automatically and does not have a custom description"
+    config.default_event_type_description = default_descriptions % 'event type'
+    config.default_subject_type_description = default_descriptions % 'subject type'
+    config.default_role_type_description = default_descriptions % 'role type'
   end
 end

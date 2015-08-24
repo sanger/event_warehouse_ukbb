@@ -23,9 +23,6 @@ module ResourceTools::Json
     class_attribute :stored_as_boolean
     self.stored_as_boolean = []
 
-    class_attribute :nested_models
-    self.nested_models = {}
-
     class_attribute :recorded
     self.recorded = false
 
@@ -37,13 +34,6 @@ module ResourceTools::Json
       # the key conversion further into the data.
       def subkey_class
         Hashie::Mash
-      end
-
-      def has_nested_model(name,&block)
-        self.nested_models = Hash.new if self.nested_models.blank?
-        const_set(:"#{name.to_s.classify}JsonHandler", Class.new(ResourceTools::Json::Handler))
-        self.nested_models[name] = const_get(:"#{name.to_s.classify}JsonHandler")
-        self.nested_models[name].tap { |json_handler| json_handler.instance_eval(&block) if block_given? }
       end
 
       def ignore(*attributes)
@@ -66,26 +56,8 @@ module ResourceTools::Json
       #private :convert_key
 
       def collection_from(json_data,lims)
-        # We're not nested, so just return the standard json
-        return new(json_data.reverse_merge(:id_lims=>lims)) if nested_models.blank?
-        Array.new.tap do |collection|
-          original = new(json_data.reverse_merge(:id_lims=>lims))
-          collection << original if self.recorded
-          each_nested_model(json_data) do |nested,handler|
-            collection << handler.collection_from(original.reverse_merge(nested),lims)
-          end
-        end.flatten
+        new(json_data.reverse_merge(:lims_id=>lims))
       end
-
-      def each_nested_model(json_data)
-        nested_models.each do |name,handler|
-          next if json_data[name.to_s].nil?
-          json_data[name.to_s].each do |nested|
-            yield(nested, handler)
-          end
-        end
-      end
-      private :each_nested_model
 
       def has_own_record
         self.recorded = true

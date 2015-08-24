@@ -6,7 +6,10 @@ gem "mysql2"
 
 # TODO: COnsider switching to Bunny if possible
 gem "amqp", "~> 1.5"
-gem "hashie", "~> 3.3"
+
+# We use a special version of hashie to bypass rails protected attributes.
+# Consider removing Hashie entirely
+gem "hashie-forbidden_attributes"
 gem "rest-client"
 gem "migration_comments"
 
@@ -25,7 +28,9 @@ gem "migration_comments"
 group :test, :development do
   gem 'rspec-rails', '~> 3.1'
   gem 'factory_girl_rails'
+  gem 'database_cleaner'
   gem 'mocktra', '~> 1.0.2'
+  gem 'pry'
 end
 
 group :development do

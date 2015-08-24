@@ -2,6 +2,12 @@ Event Warehouse Builder
 -------------------------
 RabbitMQ driven event warehouse system for source agnostic event reporting. Records events and associates them with any number of subjects, allowing easy answering of the question 'tell me everything that has happened to x.'
 
+Configuration
+-------------
+The default configuration is provided in ./config/application if follows the standard rails format. Environment specific configurations can be applied in the matching ./environments/environments_name.rb file.
+
+[event_type_preregistration] If set to true events will only be recorded if their event type is listed in the event dictionary. If false, new event types will be added to the dictionary automatically.
+
 Glossary
 --------
 
@@ -15,7 +21,7 @@ Glossary
 
 [EventSubject] An association between an event and a subject. Defines the role a subject plays in the event.
 
-[lims_id] Present on event, and included as a field in the event message (see Message Format), identifies the originating system. Allows multiple systems to share an event warehouse. (The term LIMS stands for 'Laboratory Information Management System' and reflects the initial use of this event tracker)
+[lims] Present on event, and included as a field in the event message (see Message Format), identifies the originating system. Allows multiple systems to share an event warehouse. (The term LIMS stands for 'Laboratory Information Management System' and reflects the initial use of this event tracker)
 [friendly_name] Present on subject. A human readable, commonly used identifier for the subject. Uniqueness is recommended, but not enforced. In the event that two subjects exist with the same friendly name, uuid and subject type can assist with disambiguation.
 
 Example
@@ -34,12 +40,14 @@ Events are highly varied in nature, and in terms of the number and types of subj
 Message Format
 --------------
 
-All messages are received in JSON format via a message queue (RabbitMQ)
+All messages are received in JSON format via a message queue (RabbitMQ). The example below illustrates the scenario described in the 'Example' section. occurred_at records a timestamp for the event, whereas user_identifier records the person or process responsible for the event.
 
 {
   "event":{
     "uuid":"00000000-1111-2222-3333-444444444444",
     "event_type":"delivery",
+    "occured_at":"2012-03-11 10:22:42",
+    "user_identifier":"postmaster@example.com",
     "subjects":[
       {
         "role":"sender",
@@ -59,11 +67,11 @@ All messages are received in JSON format via a message queue (RabbitMQ)
         "friendly_name":"Chuck",
         "uuid":"00000000-1111-2222-3333-777777777777"
       }
-    ]
+    ],
+    "metadata":{
+      "delivery_method":"courier",
+      "shipping_cost":"15.00"
+    }
   },
-  "metadata":{
-    "delivery_method":"courier",
-    "shipping_cost":"15.00"
-  }
-  "lims_id":"example"
+  "lims":"example"
 }
