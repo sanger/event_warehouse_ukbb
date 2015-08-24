@@ -38,9 +38,12 @@ describe Event do
     }
   end
 
+  before(:example) do
+    create(:event_type, key:registered_event_type)
+  end
+
   context "message receipt" do
     before(:example) do
-      create(:event_type, key:registered_event_type)
       described_class.create_or_update_from_json(json, example_lims)
     end
 
