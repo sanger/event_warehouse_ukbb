@@ -12,6 +12,10 @@ class Event < ActiveRecord::Base
   belongs_to :event_type
 
   validates_presence_of :event_type
+  validates_presence_of :lims_id
+  validates_presence_of :occured_at
+  validates_presence_of :user_identifier
+  validates_uniqueness_of :uuid
 
   def event_type=(event_type_key)
     super(EventType.for_key(event_type_key))

@@ -42,6 +42,7 @@ describe Event do
 
   # We have a single pre-registered event type
   before(:example) do
+    @pre_count = Event.count
     create(:event_type, key:registered_event_type)
   end
 
@@ -52,7 +53,7 @@ describe Event do
 
     shared_examples_for "a recorded event" do
       it 'should create an event' do
-        expect(described_class.count).to eq(1)
+        expect(described_class.count - @pre_count).to eq(1)
       end
 
       it 'should have the right event type' do
@@ -65,9 +66,6 @@ describe Event do
         expect(described_class.last.uuid).to eq(event_uuid)
       end
 
-    end
-
-    shared_examples_for "an immutable event" do
     end
 
     shared_examples_for "an ignored event" do
@@ -84,7 +82,7 @@ describe Event do
       context "and the event type is registered" do
         let(:event_type) { registered_event_type }
 
-        it_behaves_like "a recorded event"
+        it_behaves_like 'a recorded event'
       end
 
       context "and the event type is unregistered" do
@@ -101,7 +99,22 @@ describe Event do
 
       let(:event_type) { missing_event_type }
 
-      it_behaves_like "a recorded event"
+      it_behaves_like 'a recorded event'
+    end
+
+  end
+
+  context 'repeat message reciept' do
+
+    let(:event_type) { registered_event_type }
+
+    before(:example) do
+      create(:event, uuid: event_uuid)
+      @pre_count = Event.count
+    end
+
+    it 'should not register a new event with the same uuid' do
+      expect { described_class.create_or_update_from_json(json, example_lims) }.to raise_error(ActiveRecord::RecordInvalid,'Validation failed: Uuid has already been taken')
     end
 
   end
