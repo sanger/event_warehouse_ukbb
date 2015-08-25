@@ -42,6 +42,7 @@ Message Format
 
 All messages are received in JSON format via a message queue (RabbitMQ). The example below illustrates the scenario described in the 'Example' section. occurred_at records a timestamp for the event, whereas user_identifier records the person or process responsible for the event.
 
+```json
 {
   "event":{
     "uuid":"00000000-1111-2222-3333-444444444444",
@@ -75,6 +76,7 @@ All messages are received in JSON format via a message queue (RabbitMQ). The exa
   },
   "lims":"example"
 }
+```
 
 Seeds
 -----
