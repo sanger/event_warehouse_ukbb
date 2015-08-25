@@ -26,6 +26,12 @@ class Event < ActiveRecord::Base
   end
 
   def subjects=(subject_array)
+    role_array = subject_array.map do |subject_data|
+      role_type = subject_data.delete(:role_type)
+      subject = Subject.lookup(subject_data)
+      {role_type: role_type, subject: subject}
+    end
+    roles.build(role_array)
   end
 
   def metadata=(metadata_hash)
