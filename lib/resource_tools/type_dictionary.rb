@@ -37,16 +37,33 @@ module ResourceTools::TypeDictionary
 
   end
 
- def self.included(base)
-  base.class_eval do
+  def self.included(base)
+    base.class_eval do
 
-    validates_presence_of :key
-    validates_uniqueness_of :key
+      validates_presence_of :key
+      validates_uniqueness_of :key
 
-    validates_presence_of :description
+      validates_presence_of :description
 
-    extend ClassMethods
+      extend ClassMethods
+    end
   end
- end
+
+  # Include in MyClass to set up MyClassType associations and setters
+  module HasDictionary
+    def self.included(base)
+      base.class_eval do
+
+        type_assn = "#{self.name.downcase}_type"
+        type_class = "#{self.name}Type".constantize
+
+        belongs_to :"#{type_assn}"
+        define_method(:"#{type_assn}=") do |assn_key|
+          super(type_class.for_key(assn_key))
+        end
+
+      end
+    end
+  end
 
 end
