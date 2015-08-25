@@ -2,8 +2,8 @@ class Event < ActiveRecord::Base
   include ResourceTools
   include ImmutableResourceTools
 
-  has_many :event_subjects
-  has_many :subjects, through: :event_subjects
+  has_many :roles
+  has_many :subjects, through: :roles
 
   has_many :metadata do
     def build_from_json(metadata_hash)

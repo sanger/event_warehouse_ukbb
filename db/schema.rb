@@ -13,18 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20150818153117) do
 
-  create_table "event_subjects", force: :cascade do |t|
-    t.integer  "event_id",     limit: 4, null: false, comment: "Associate with the event (what happened)"
-    t.integer  "subject_id",   limit: 4, null: false, comment: "Associate with the subject (what it happened to, or what might care)"
-    t.integer  "role_type_id", limit: 4, null: false, comment: "References the role_types table, describing the role"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "event_subjects", ["event_id"], name: "index_event_subjects_on_event_id", using: :btree
-  add_index "event_subjects", ["role_type_id"], name: "fk_rails_cebba153ce", using: :btree
-  add_index "event_subjects", ["subject_id"], name: "index_event_subjects_on_subject_id", using: :btree
-
   create_table "event_types", force: :cascade do |t|
     t.string   "key",         limit: 255,   null: false, comment: "The identifier for the event"
     t.text     "description", limit: 65535, null: false, comment: "A description of the meaning of the event"
@@ -66,6 +54,18 @@ ActiveRecord::Schema.define(version: 20150818153117) do
 
   add_index "role_types", ["key"], name: "index_role_types_on_key", unique: true, using: :btree
 
+  create_table "roles", force: :cascade do |t|
+    t.integer  "event_id",     limit: 4, null: false, comment: "Associate with the event (what happened)"
+    t.integer  "subject_id",   limit: 4, null: false, comment: "Associate with the subject (what it happened to, or what might care)"
+    t.integer  "role_type_id", limit: 4, null: false, comment: "References the role_types table, describing the role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "roles", ["event_id"], name: "index_roles_on_event_id", using: :btree
+  add_index "roles", ["role_type_id"], name: "fk_rails_df614e5484", using: :btree
+  add_index "roles", ["subject_id"], name: "index_roles_on_subject_id", using: :btree
+
   create_table "subject_types", force: :cascade do |t|
     t.string   "key",         limit: 255,   null: false, comment: "The identifier for the role type"
     t.text     "description", limit: 65535, null: false, comment: "A description of the subject type"
@@ -87,10 +87,10 @@ ActiveRecord::Schema.define(version: 20150818153117) do
   add_index "subjects", ["subject_type_id"], name: "fk_rails_b7f2e355a0", using: :btree
   add_index "subjects", ["uuid"], name: "index_subjects_on_uuid", unique: true, using: :btree
 
-  add_foreign_key "event_subjects", "events"
-  add_foreign_key "event_subjects", "role_types"
-  add_foreign_key "event_subjects", "subjects"
   add_foreign_key "events", "event_types"
   add_foreign_key "metadata", "events"
+  add_foreign_key "roles", "events"
+  add_foreign_key "roles", "role_types"
+  add_foreign_key "roles", "subjects"
   add_foreign_key "subjects", "subject_types"
 end
