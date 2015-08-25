@@ -33,7 +33,6 @@ group :test, :development do
   gem 'rspec-rails', '~> 3.1'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
-  gem 'mocktra', '~> 1.0.2'
   gem 'pry'
 end
 
