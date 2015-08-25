@@ -4,6 +4,10 @@ FactoryGirl.define do
     "example_key_#{i}"
   end
 
+  sequence :friendly_name do |i|
+    "example_#{i}@example.com"
+  end
+
   # It might seem like it makes sense just to generate
   # a random uuid. However sequential uuids identified
   # an indexing bug
@@ -39,6 +43,18 @@ FactoryGirl.define do
     key 'key'
     value 'value'
     event
+  end
+
+  factory :role do
+    role_type
+    event
+    subject
+  end
+
+  factory :subject do
+    friendly_name
+    subject_type
+    uuid
   end
 
 end
