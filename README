@@ -75,3 +75,9 @@ All messages are received in JSON format via a message queue (RabbitMQ). The exa
   },
   "lims":"example"
 }
+
+Seeds
+-----
+The the files in the ./db/seeds/ directory are used to seed the dictionaries for event_types, role_types and subject_types. Each file contains on array of ['key','description'] arrays. They will automatically be inserted into the database when you run `rake db:seed`. In addition `rake dictionaries:update` may be used to automatically insert any missing records, or to update the descriptions of existing records. `rake dictionaries:update` will not remove dictionary entries which are missing from the seeds file.
+
+The existing entries correspond to the requirements of the Sanger, and are not required for normal operation.
