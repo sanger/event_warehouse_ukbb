@@ -20,7 +20,6 @@ class Event < ActiveRecord::Base
   validates_presence_of :user_identifier
   validates_uniqueness_of :uuid
 
-
   def ignorable?
     event_type.nil?
   end
