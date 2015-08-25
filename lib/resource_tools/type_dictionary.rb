@@ -50,6 +50,7 @@ module ResourceTools::TypeDictionary
   end
 
   # Include in MyClass to set up MyClassType associations and setters
+  # The setter can receive either the key, or the type itself
   module HasDictionary
     def self.included(base)
       base.class_eval do
@@ -59,7 +60,8 @@ module ResourceTools::TypeDictionary
 
         belongs_to :"#{type_assn}"
         define_method(:"#{type_assn}=") do |assn_key|
-          super(type_class.for_key(assn_key))
+          key_object = assn_key.is_a?(String) ? type_class.for_key(assn_key) : assn_key
+          super(key_object)
         end
 
       end

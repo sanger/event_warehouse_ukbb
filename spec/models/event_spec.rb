@@ -1,4 +1,6 @@
 require 'spec_helper'
+
+# As Event is effectively our main API we conduct integration tests through here
 describe Event do
 
   let(:example_lims) { 'postal_service' }
@@ -15,19 +17,19 @@ describe Event do
       "user_identifier" => "postmaster@example.com",
       "subjects"=>[
         {
-          "role" => "sender",
+          "role_type" => "sender",
           "subject_type" => "person",
           "friendly_name" => "alice@example.com",
           "uuid" => "00000000-1111-2222-3333-555555555555"
         },
         {
-          "role" => "recipient",
+          "role_type" => "recipient",
           "subject_type" => "person",
           "friendly_name" => "bob@example.com",
           "uuid" => "00000000-1111-2222-3333-666666666666"
         },
         {
-          "role" => "package",
+          "role_type" => "package",
           "subject_type" => "plant",
           "friendly_name" => "Chuck",
           "uuid" => "00000000-1111-2222-3333-777777777777"
@@ -49,6 +51,8 @@ describe Event do
     @pre_count = Event.count
     create(:event_type, key:registered_event_type)
   end
+
+  it_behaves_like 'it has a type dictionary'
 
   context "message receipt" do
     before(:example) do
@@ -77,6 +81,14 @@ describe Event do
         expect(described_class.last.metadata.count).to eq(2)
         metadata.each do |key,value|
           expect(described_class.last.metadata.where(key:key).first.value).to eq(value)
+        end
+      end
+    end
+
+    shared_examples_for 'it finds and registers subjects' do
+      context 'when the subjects are new' do
+        before(:example) do
+          create(:subject,friendly_name:'bob@example.com',uuid:'00000000-1111-2222-3333-666666666666')
         end
       end
     end
