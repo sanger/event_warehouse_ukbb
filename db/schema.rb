@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818153117) do
+ActiveRecord::Schema.define(version: 20151007115447) do
 
   create_table "event_types", force: :cascade do |t|
     t.string   "key",         limit: 255,   null: false, comment: "The identifier for the event"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20150818153117) do
   create_table "metadata", force: :cascade do |t|
     t.integer  "event_id",   limit: 4,   null: false, comment: "References the event with which the metadata is associated"
     t.string   "key",        limit: 255, null: false, comment: "The metadata type"
-    t.string   "value",      limit: 255, null: false, comment: "The metadata value"
+    t.string   "value",      limit: 255,              comment: "The metadata value. NULL indicates no value was set."
     t.datetime "created_at"
     t.datetime "updated_at"
   end
