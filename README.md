@@ -19,7 +19,7 @@ Glossary
 - **RoleType** A property of the association of an event with a subject. Defines the way in which the subject is associated with the event.
 - **SubjectType** A dictionary of subject types.
 
-- **EventSubject** An association between an event and a subject. Defines the role a subject plays in the event.
+- **Role** An association between an event and a subject. Defines the role a subject plays in the event.
 
 - **lims** Present on event, and included as a field in the event message (see Message Format), identifies the originating system. Allows multiple systems to share an event warehouse. (The term LIMS stands for 'Laboratory Information Management System' and reflects the initial use of this event tracker)
 - **friendly_name** Present on subject. A human readable, commonly used identifier for the subject. Uniqueness is recommended, but not enforced. In the event that two subjects exist with the same friendly name, uuid and subject type can assist with disambiguation.
@@ -29,7 +29,7 @@ Example
 
 Alice has a pot-plant called Chuck. She delivers this to Bob. This gets logged as an event. In this scenario you'd have a 'delivery' event; 'Alice' and 'Bob' would both be subjects, with a subject type of 'person,' their 'friendly_name' could be something like an email address or a login, these are easy to read but should also be unique. Alice would have a role of 'sender' and Bob of 'recipient'. Meanwhile Chuck would be another subject, with the type 'plant' and a 'friendly_name' of 'Chuck', the role however would be 'package'.
 
-Note that when Bob decides to return the favour by sending Alice a cake, their roles are reversed. Each person will still exist as just one subject, but will have two EventSubjects, each with a different role. Meanwhile the cake will be a new subject with type 'cake' but it will have a 'package' role, just as Chuck did. Hence while a subjects type describes what a subject IS, and should be static, its role describes what it DOES, and is defined on a pre event basis. Additionally, a given event type may have a role that could be filled by multiple subject types.
+Note that when Bob decides to return the favour by sending Alice a cake, their roles are reversed. Each person will still exist as just one subject, but will have two Roles, each with a different RoleType. Meanwhile the cake will be a new subject with type 'cake' but it will have a 'package' role, just as Chuck did. Hence while a subjects type describes what a subject IS, and should be static, its role describes what it DOES, and is defined on a pre event basis. Additionally, a given event type may have a role that could be filled by multiple subject types.
 
 Meanwhile Eve is able to tell that all this is going on by tracking the entries being inserted into the database.
 
