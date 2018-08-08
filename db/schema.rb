@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151007115447) do
+ActiveRecord::Schema.define(version: 20180807155657) do
 
   create_table "event_types", force: :cascade do |t|
     t.string   "key",         limit: 255,   null: false, comment: "The identifier for the event"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20151007115447) do
     t.string   "lims_id",         limit: 255, null: false, comment: "Identifier for the originating LIMS. eg. SQSCP for Sequencesacape"
     t.uuid     "uuid",            limit: 16,  null: false, comment: "A binary encoded UUID use HEX(uuid) to retrieve the original (minus dashes)"
     t.integer  "event_type_id",   limit: 4,   null: false, comment: "References the event type"
-    t.datetime "occured_at",                  null: false, comment: "The time at which the event was recorded as happening. Other timestamps record when the event entered the database"
+    t.datetime "occurred_at",                 null: false
     t.string   "user_identifier", limit: 255, null: false
     t.datetime "created_at"
     t.datetime "updated_at"

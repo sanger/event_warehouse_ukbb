@@ -24,7 +24,7 @@ describe Event do
     {
       "uuid" => event_uuid,
       "event_type" => event_type,
-      "occured_at" => "2012-03-11 10:22:42",
+      "occurred_at" => "2012-03-11 10:22:42",
       "user_identifier" => "postmaster@example.com",
       "subjects"=>[
         {

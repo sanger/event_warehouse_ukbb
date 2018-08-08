@@ -35,7 +35,7 @@ FactoryGirl.define do
     uuid
     lims_id 'example_lims'
     event_type
-    occured_at { 5.seconds.ago }
+    occurred_at { 5.seconds.ago }
     user_identifier 'example@example.com'
   end
 
