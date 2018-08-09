@@ -47,7 +47,7 @@ All messages are received in JSON format via a message queue (RabbitMQ). The exa
   "event":{
     "uuid":"00000000-1111-2222-3333-444444444444",
     "event_type":"delivery",
-    "occured_at":"2012-03-11 10:22:42",
+    "occurred_at":"2012-03-11 10:22:42",
     "user_identifier":"postmaster@example.com",
     "subjects":[
       {

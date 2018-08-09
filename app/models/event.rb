@@ -16,7 +16,7 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :event_type
   validates_presence_of :lims_id
-  validates_presence_of :occured_at
+  validates_presence_of :occurred_at
   validates_presence_of :user_identifier
   validates_uniqueness_of :uuid
 
