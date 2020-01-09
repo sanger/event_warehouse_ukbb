@@ -5,8 +5,8 @@ bundler_args: "--without deployment"
 cache:
   bundler: true
 before_install:
-  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
-  - gem install bundler -v '< 2'
+- gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+- gem install bundler -v '< 2'
 before_script:
 - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
   > ./cc-test-reporter
@@ -16,5 +16,17 @@ before_script:
 - bundle exec rake db:schema:load
 script:
 - bundle exec rspec
-after_script:
-- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+before_deploy: "./compile-build"
+deploy:
+  provider: releases
+  api_key:
+    secure: remsufm9Mfrv337VOG8D0khgjo65me6qhbm/dCKS4oFpEHqSPDK3wNb8wgKd21jrzu7h/sTCaAEWpWwyJ8MPPksMLiv79/V934sMKIdB2oBLXJUYUgLa0ut+7H/MwPckU9IjzjyXa4F8PPnLYZomcK2OjlsewW1Y5ckWq8Y+AuZvXFkXLLgAYavCJbn9n0tK3nQEFbMd4DYwuLB9E+2NDWnHDDUUV1fosnbV+hVdEVRdps8GXvQ/pfvfp6PfcP0zSc6L8wXEDr9VgVBMfK2wxPdHd9FhhZwWNL18ikWSxKCYynnXCBsrUmjtAeLTOoqnx5dF2eyt58OHRbFt8Vt8IcJ8KZz4jszub2Rs3wMqckeOZpiTXM/sbpTMbY18/6WKlxkUMMKYyeRXw49iPn9JIi8HXZhDchEncA1kvgLtj0zs4mikst/d5BL74Y4vL8h6O0ofxiM1p8VDNyKSie8ZAL5qkbjxrhvpH2AOzMG6edSjZsh0t9Ccb4bNDz6r0RsW+NcGA/r1MuafqySEJPUoUaAm4lDYrGn9yV9TXs2cOyUDY6q9SOX5MPQjZgDfmQkc2nWm61cF5H4VEwZn0fCmY3/hslrNaYyt6KJAqERQbp+yQJ+1MmtJ6BLKlihDYKFXIzdUCb/P0K4ZK8JpzWBGIG5rZOj1+5+0H5tiQY8gs4g=
+  file: release.tar.gz
+  on:
+    repo: sanger/event_warehouse_ukbb
+    tags: true
+  file_glob: true
+  skip_cleanup: true
+notifications:
+  slack:
+    secure: WOTWRYxxesHC3dBKSOmN6PO4hXrspjUA6Pnd/Z1H0AKUZO+pWPZExt3crnD1SdEq1FbNF7TYevJaXRURb9flG3cirvpm/uM4pRB3nMgWSjA3SQrl9JJeVGybAPuUNrrNc4LqyvFz6g3m96OzaQAE9hkkUclsVud6aYQ00jArBEw=
