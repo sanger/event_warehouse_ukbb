@@ -15,6 +15,9 @@ EventWarehouse::Application.configure do
   # config.active_record.mass_assignment_sanitizer         = :strict
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
+  # Disable sprockets
+  config.assets.enabled = false
+
   # Configure the numeric tolerance
   config.numeric_tolerance = 0.05
 
