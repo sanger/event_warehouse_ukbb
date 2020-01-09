@@ -16,8 +16,6 @@ before_script:
 - bundle exec rake db:schema:load
 script:
 - bundle exec rspec
-after_script:
-- "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
 before_deploy: "./compile-build"
 deploy:
   provider: releases
