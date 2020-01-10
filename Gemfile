@@ -30,6 +30,3 @@ group :development do
   gem 'guard-rspec'
 end
 
-group :deployment do
-  gem "psd_logger", :git => "git+ssh://git@github.com/sanger/psd_logger.git"
-end
