@@ -4,6 +4,10 @@ source 'https://rubygems.org'
 gem "rails", "~> 4.2"
 gem "mysql2"
 
+# To start workers
+gem 'daemons'
+
+
 # TODO: COnsider switching to Bunny if possible
 gem "amqp", "~> 1.5"
 
