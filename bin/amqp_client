@@ -47,7 +47,7 @@ end
 
 
 class AmqpClient
-  APP_NAME = 'event_warehouse'.freeze
+  APP_NAME = 'event_warehouse_ukbb'.freeze
   DEFAULT_WORKERS = 2
   DEFAULT_PID_DIR = './tmp/pids'.freeze
 
